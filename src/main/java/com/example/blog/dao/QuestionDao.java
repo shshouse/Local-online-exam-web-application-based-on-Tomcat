@@ -6,6 +6,7 @@ import com.example.blog.util.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +20,38 @@ public class QuestionDao {
 
     // 按时间筛选题目
     public List<Question> getQuestionsByDateRange(String startDate, String endDate) {
+        List<Question> questions = new ArrayList<>();
         String sql = "SELECT * FROM questions WHERE created_at BETWEEN ? AND ?";
-        return queryQuestionsWithParams(sql, startDate, endDate);
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, startDate);
+            stmt.setString(2, endDate);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Question q = new Question();
+                q.setId(rs.getInt("id"));
+                q.setTitle(rs.getString("title"));
+                q.setType(rs.getInt("type"));
+                q.setOptions(rs.getString("options"));
+                q.setAnswer(rs.getString("answer"));
+                q.setScore(rs.getBigDecimal("score").doubleValue());
+                q.setTeacherId(rs.getString("teacher_id"));
+                q.setCreatedAt(rs.getTimestamp("created_at"));
+
+                questions.add(q);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return questions;
     }
 
-    // 分页获取题目
-    public List<Question> getQuestionsByPage(int pageNum, int pageSize) {
-        String sql = "SELECT * FROM questions ORDER BY created_at DESC LIMIT ? OFFSET ?";
-        int offset = (pageNum - 1) * pageSize;
-        return queryQuestionsWithParams(sql, String.valueOf(pageSize), String.valueOf(offset));
-    }
 
     // 添加题目
     public boolean addQuestion(Question question) {

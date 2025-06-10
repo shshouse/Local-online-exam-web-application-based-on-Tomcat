@@ -32,36 +32,112 @@
   <meta charset="UTF-8">
   <title>编辑题目 - 教师端</title>
   <style>
-    body {
-      font-family: "Segoe UI", sans-serif;
-      padding: 20px;
-      background-color: #f4f6f8;
+    * {
+      box-sizing: border-box;
     }
+
+    body {
+      font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #007bff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
     label {
       font-weight: bold;
-      display: block;
-      margin-top: 10px;
-    }
-    input[type="number"], select, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-    .btn {
       margin-top: 15px;
-      padding: 10px 15px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    select,
+    textarea,
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+
+    select:focus,
+    textarea:focus,
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+    }
+
+    textarea {
+      height: 100px;
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 25px;
+    }
+
+    .btn {
+      padding: 10px 20px;
       background-color: #007bff;
       color: white;
       border: none;
-      border-radius: 4px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
+
     .btn:hover {
       background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .form-group {
+      flex: 1;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+
+      .btn {
+        width: 100%;
+      }
     }
   </style>
+
 </head>
 <body>
 

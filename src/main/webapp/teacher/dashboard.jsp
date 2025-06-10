@@ -328,7 +328,6 @@
             %>
             <p><strong>工号：</strong><%= teacher.getTeacherId() %></p>
             <p><strong>姓名：</strong><%= teacher.getUsername() %></p>
-            <p><strong>所属学院：</strong><%= teacher.getDepartment() %></p>
             <p><strong>注册时间：</strong>
                 <%= teacher.getCreatedAt() != null ? teacher.getCreatedAt().toLocaleString() : "未知" %>
             </p>

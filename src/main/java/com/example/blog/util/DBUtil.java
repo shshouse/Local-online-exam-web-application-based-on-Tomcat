@@ -1,8 +1,6 @@
 package com.example.blog.util;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DBUtil {
     public static String driver = "com.mysql.jdbc.Driver";
@@ -35,5 +33,18 @@ public class DBUtil {
             }
         }
     }
+    // 在 DBUtil.java 中添加如下方法：
+    public static void close(ResultSet rs, PreparedStatement stmt, Connection conn) {
+        if (rs != null) {
+            try { rs.close(); } catch (SQLException e) { /* ignore */ }
+        }
+        if (stmt != null) {
+            try { stmt.close(); } catch (SQLException e) { /* ignore */ }
+        }
+        if (conn != null) {
+            try { conn.close(); } catch (SQLException e) { /* ignore */ }
+        }
+    }
+
 }
 
