@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
@@ -59,9 +61,9 @@ public class RegisterServlet extends HttpServlet {
 
             Student student = new Student();
             student.setUsername(username);
-            student.setPassword(password); // 实际应使用 BCrypt 加密
+            student.setPassword(md5Encrypt(password)); // 使用MD5加密密码
             student.setStudentId(id);
-            student.setCourse("无"); // 可选字段留空
+            student.setCourse("无");
 
             boolean success = studentDao.register(student);
             if (success) {
@@ -78,7 +80,7 @@ public class RegisterServlet extends HttpServlet {
 
             Teacher teacher = new Teacher();
             teacher.setUsername(username);
-            teacher.setPassword(password); // 实际应使用 BCrypt 加密
+            teacher.setPassword(md5Encrypt(password)); // 使用MD5加密密码
             teacher.setTeacherId(id);
 
             boolean success = teacherDao.register(teacher);
@@ -87,6 +89,21 @@ public class RegisterServlet extends HttpServlet {
             } else {
                 response.sendRedirect("signup.jsp?error=0");
             }
+        }
+    }
+
+    private String md5Encrypt(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(input.getBytes());
+            byte[] bytes = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : bytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
     }
 }
