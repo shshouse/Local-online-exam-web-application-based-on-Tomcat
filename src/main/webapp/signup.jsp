@@ -90,8 +90,16 @@
   <h2>用户注册</h2>
 
   <% String error = request.getParameter("error"); %>
-  <% if (error != null && error.equals("1")) { %>
-  <div class="error-message">注册失败，学号/工号已经注册过。</div>
+  <% if (error != null) { %>
+  <div class="error-message">
+      <% switch (error) {
+          case "1": out.print("注册失败，学号/工号已经注册过。"); break;
+          case "2": out.print("注册失败，两次输入的密码不一致。"); break;
+          case "3": out.print("注册失败，请填写所有必填字段。"); break;
+          case "4": out.print("注册失败，密码格式不正确（至少8位字符）。"); break;
+          default: out.print("注册失败，请稍后重试。");
+      } %>
+  </div>
   <% } %>
 
   <form action="${pageContext.request.contextPath}/register" method="post">
